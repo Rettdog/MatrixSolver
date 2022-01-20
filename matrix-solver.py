@@ -14,13 +14,14 @@ def row_replace(row1, row2, factor):
 
 def solve():
     ref()
+    rref()
 
 def ref():
     for i in range(matrix.shape[1]-1):
         if matrix.item(i,i) == 0:
-            row_swap(i,i+1)
-            i-=1
-            print(matrix)
+            # row_swap(i,i+1)
+            # i-=1
+            # print(matrix)
             continue
         else:
             row_multiply(i,1/matrix.item(i,i))
@@ -29,6 +30,11 @@ def ref():
             row_replace(i,j,-1*matrix.item(j,i))
             print(matrix)
 
+def rref():
+    for i in range(matrix.shape[1]-2, 0, -1):
+        for j in range(i-1,-1,-1):
+            row_replace(i,j,-1*matrix.item(j,i))
+            print(matrix)
 # var = int(input("How many variables?"))
 # equ = int(input("How many equations?"))
 var = 3
@@ -40,12 +46,10 @@ equ = 3
 #     val = np.matrix(input("Please input first equation's coefficents"))
 #     matrix[i] = val
 
-matrix = np.mat([[1., 2., 3., 6.],
-        [1., 3., 5., 4.],
-        [3., 2., 3., 4.]])
+matrix = np.mat([[1., -1., -5., -3.],
+                 [3., 2., -3., 5.],
+                 [2., 0., -5., 1.]])
 
 print(matrix)
 
 solve()
-
-print(matrix)
