@@ -85,7 +85,7 @@ equ = 3
 #     matrix[i] = val
 
 matrix = np.mat([[1, -1, -5, -3],
-                 [3,  2, -3,  5],
+                 [0,  0, -2,  5],
                  [2,  0, -5,  1]],
                 dtype=np.float64)
 
