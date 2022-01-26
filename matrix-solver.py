@@ -26,7 +26,7 @@ def row_multiply(row, factor):
     matrix[row] = matrix[row]*factor
 
     # explanation of row multiplication
-    return f'R{row+1} * {factor:.2f}'
+    return f'R{row+1} -> R{row+1} * {factor:.2f}'
 
 
 def row_swap(row1, row2):
@@ -43,16 +43,22 @@ def row_replace(row1, row2, factor):
     matrix[row2] += temp
 
     # explanation of row replacement
-    return f'R{row2+1} + R{row1+1} * {factor:.2f}'
+    return f'R{row2+1} -> R{row2+1} + R{row1+1} * {factor:.2f}'
 
 
 def ref():
     for i in range(matrix.shape[1]-1):
         if matrix.item(i, i) == 0:
-            # row_swap(i,i+1)
+            for j in range(matrix.shape[0]-1,i,-1):
+                if matrix.item(j,i) != 0:
+                    m = row_swap(i,j)
+                    fancy_print(matrix, m, j)
+
+                    m= row_multiply(i, 1/matrix.item(i,i))
+                    fancy_print(matrix, m, i)
+                    break
             # i-=1
-            # print(matrix)
-            continue
+            # continue
         else:
             m = row_multiply(i, 1/matrix.item(i, i))
         fancy_print(matrix, m, i)
@@ -72,6 +78,16 @@ def solve():
     ref()
     rref()
 
+def getSolutionMessage():
+    for i in range(matrix.shape[0]):
+        if np.all(matrix[i,:-1] == 0):
+            if matrix[i,-1] != 0:
+                return "No Solution"
+            else:
+                return "Infinitely Many Solutions"
+    return "Unique Solution"
+
+
 
 # var = int(input("How many variables?"))
 # equ = int(input("How many equations?"))
@@ -81,16 +97,16 @@ equ = 3
 # matrix = np.zeros((equ, var+1))
 #
 # for i in range(equ):
-#     val = np.matrix(input("Please input first equation's coefficents"))
+#     val = np.matrix(input("Please input first equation's coefficents"), dtype=np.float64)
 #     matrix[i] = val
 
 matrix = np.mat([[1, -1, -5, -3],
-                 [0,  0, -2,  5],
-                 [2,  0, -5,  1]],
+                 [2,  0, 4,  1],
+                 [1,  0, 1.5,  0.5]],
                 dtype=np.float64)
 
 fancy_print(matrix)
 
 solve()
 
-fancy_print(matrix, 'Solution')
+fancy_print(matrix, getSolutionMessage())
