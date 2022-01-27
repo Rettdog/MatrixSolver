@@ -48,7 +48,7 @@ def row_replace(row1, row2, factor):
 
 
 def ref():
-    for i in range(matrix.shape[1]-1 if matrix.shape[1]<=matrix.shape[0]-1 else matrix.shape[0]):
+    for i in range(matrix.shape[1]-1 if matrix.shape[1] <= matrix.shape[0]-1 else matrix.shape[0]):
         if matrix.item(i, i) == 0:
             for j in range(matrix.shape[0]-1,i,-1):
                 if matrix.item(j,i) != 0:
@@ -69,7 +69,7 @@ def ref():
 
 
 def rref():
-    for i in range(matrix.shape[1]-2 if matrix.shape[1] < matrix.shape[0]-1 else matrix.shape[0]-1, 0, -1):
+    for i in range(matrix.shape[1]-2 if matrix.shape[1] <= matrix.shape[0]-1 else matrix.shape[0]-1, 0, -1):
         for j in range(i-1, -1, -1):
             m = row_replace(i, j, -1*matrix.item(j, i))
             fancy_print(matrix, m, j)
@@ -102,7 +102,7 @@ def generateRandomMatrix():
     for i in range(matrix.shape[0]):
         for j in range(matrix.shape[1]):
             matrix.itemset((i,j), r.randint(-10,10))
-    return matrix        
+    return matrix
 
 
 # var = int(input("How many variables?"))
