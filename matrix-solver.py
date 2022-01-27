@@ -12,7 +12,7 @@ def fancy_print(matrix, op=None, row=None):
 
     for i, row_ in enumerate(matrix):
         style = 'white' if i == row else 'green' if sum(row_[:-1]) == 1 and min(row_[:-1]) == 0 and max(
-            row_[:-1]) == 1 else 'green' if np.all(row_ == 0) else 'red1'
+            row_[:-1]) == 1 else 'darkgreen' if np.all(row_ == 0) else 'red1'
         buf.append(''.join((
             f'{item:8.2f}'
             for item in row_
@@ -77,7 +77,9 @@ def rref():
 
 def solve():
     ref()
+    fix()
     rref()
+    fix()
 
 def getSolutionMessage():
     # look for pivots in every column except for augmented column
@@ -98,17 +100,26 @@ def getSolutionMessage():
     return "Unique Solution"
 
 def generateRandomMatrix():
-    matrix = np.zeros((r.randint(1,maxrows), r.randint(2,maxcolumns)),dtype=np.float64)
+    matrix = np.zeros((r.randint(minrows,maxrows), r.randint(maxrows,maxcolumns)),dtype=np.float64)
     for i in range(matrix.shape[0]):
         for j in range(matrix.shape[1]):
             matrix.itemset((i,j), r.randint(-10,10))
     return matrix
 
+def fix():
+    for i in range(matrix.shape[0]):
+        for j in range(matrix.shape[1]):
+            if abs(matrix.item(i,j)-1) <= errormargin:
+                matrix.itemset((i,j), 1)
+            if abs(matrix.item(i,j)) <= errormargin:
+                matrix.itemset((i,j), 0)
 
 # var = int(input("How many variables?"))
 # equ = int(input("How many equations?"))
 var = 3
 equ = 3
+
+errormargin = 0.000001
 
 # matrix = np.zeros((equ, var+1))
 #
@@ -117,8 +128,10 @@ equ = 3
 #     matrix[i] = val
 
 # Generate random matrix
-maxcolumns = 5
-maxrows = 5
+maxcolumns = 10
+mincolumns = 6
+maxrows = 10
+minrows = 5
 
 # matrix = np.zeros((r.randint(1,maxrows), r.randint(2,maxcolumns)),dtype=np.float64)
 # for i in range(matrix.shape[0]):
@@ -133,11 +146,13 @@ maxrows = 5
 #                  [1,  4, 0,   3,  9, 3]],
 #                 dtype=np.float64)
 
-for i in range(10):
+for i in range(1):
     matrix = generateRandomMatrix()
 
     fancy_print(matrix)
 
     solve()
+
+
 
     fancy_print(matrix, getSolutionMessage())
