@@ -137,17 +137,22 @@ minrows = 5
 # for i in range(matrix.shape[0]):
 #     for j in range(matrix.shape[1]):
 #         matrix.itemset((i,j), r.randint(-10,10))
-
+#
 # matrix = np.mat([[1, -1, -5, -3,   5, 4],
 #                  [2,  0, 4,   0,   0, 3],
 #                  [1,  0, 1,   5,   0, 2],
 #                  [1,  3, 0,   0,  9, 1],
-#                  [2,  3, 1,   0,  7, 1],
-#                  [1,  4, 0,   3,  9, 3]],
+#                  [2,  3, 1,   0,  7, 1]],
 #                 dtype=np.float64)
 
+matrix = np.mat([[1, 1, 2, -1, 0],
+                 [1,  0, 1,   1, 0],
+                 [0,  1, 0,   1, 0],
+                 [-1,  1, 1,   0, 0]],
+                dtype=np.float64)
+
 for i in range(1):
-    matrix = generateRandomMatrix()
+    # matrix = generateRandomMatrix()
 
     fancy_print(matrix)
 
