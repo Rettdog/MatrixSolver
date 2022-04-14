@@ -1,4 +1,5 @@
 import numpy as np
+from sympy import *
 from rich import print
 from rich.panel import Panel
 from rich.text import Text
@@ -48,31 +49,32 @@ def row_replace(row1, row2, factor):
 
 
 def ref():
-    for i in range(matrix.shape[1]-1 if matrix.shape[1] <= matrix.shape[0]-1 else matrix.shape[0]):
+    for i in range(matrix.shape[1] if matrix.shape[1] <= matrix.shape[0] else matrix.shape[0]):
         if matrix.item(i, i) == 0:
             for j in range(matrix.shape[0]-1,i,-1):
                 if matrix.item(j,i) != 0:
                     m = row_swap(i,j)
-                    fancy_print(matrix, m, j)
+                    #fancy_print(matrix, m, j)
 
                     m= row_multiply(i, 1/matrix.item(i,i))
-                    fancy_print(matrix, m, i)
+                    #fancy_print(matrix, m, i)
                     break
             # i-=1
             # continue
         else:
             m = row_multiply(i, 1/matrix.item(i, i))
-            fancy_print(matrix, m, i)
+            #fancy_print(matrix, m, i)
         for j in range(i+1, matrix.shape[0]):
             m = row_replace(i, j, -1*matrix.item(j, i))
-            fancy_print(matrix, m, j)
+            #fancy_print(matrix, m, j)
 
 
 def rref():
-    for i in range(matrix.shape[1]-2 if matrix.shape[1] <= matrix.shape[0]-1 else matrix.shape[0]-1, 0, -1):
+    print(matrix.shape[1])
+    for i in range(matrix.shape[1]-1 if matrix.shape[1] <= matrix.shape[0]-1 else matrix.shape[0]-1, 0, -1):
         for j in range(i-1, -1, -1):
             m = row_replace(i, j, -1*matrix.item(j, i))
-            fancy_print(matrix, m, j)
+            #fancy_print(matrix, m, j)
 
 
 def solve():
@@ -128,10 +130,10 @@ errormargin = 0.000001
 #     matrix[i] = val
 
 # Generate random matrix
-maxcolumns = 10
-mincolumns = 6
-maxrows = 10
-minrows = 5
+maxcolumns = 7
+mincolumns = 4
+maxrows =7
+minrows = 4
 
 # matrix = np.zeros((r.randint(1,maxrows), r.randint(2,maxcolumns)),dtype=np.float64)
 # for i in range(matrix.shape[0]):
@@ -145,19 +147,41 @@ minrows = 5
 #                  [2,  3, 1,   0,  7, 1]],
 #                 dtype=np.float64)
 
-matrix = np.mat([[1, 1, 2, -1, 0],
-                 [1,  0, 1,   1, 0],
-                 [0,  1, 0,   1, 0],
-                 [-1,  1, 1,   0, 0]],
-                dtype=np.float64)
+#
+# matrix = np.mat([[1, 1, 2, -1],
+#                  [1,  3, 1,   2],
+#                  [0,  1, 3,   1],
+#                  [-1,  1, 1,   3]],
+#                 dtype=np.float64)
 
-for i in range(1):
-    # matrix = generateRandomMatrix()
+# M = Matrix(matrix)
 
-    fancy_print(matrix)
+
+
+total = 25
+passed = 0
+
+for i in range(total):
+
+    matrix = np.zeros((r.randint(minrows,maxrows), r.randint(mincolumns,maxcolumns)),dtype=np.float64)
+    for i in range(matrix.shape[0]):
+        for j in range(matrix.shape[1]):
+            matrix.itemset((i,j), r.randint(-10,10))
+
+    M = Matrix(matrix)
+
+    print(M)
+    print(matrix)
+
+    correct = np.array(M.rref()[0]).astype(np.float64).round(2)
 
     solve()
 
-
+    print(correct)
 
     fancy_print(matrix, getSolutionMessage())
+
+    if (correct == matrix).all():
+        passed+=1
+
+print(passed/total*100)
